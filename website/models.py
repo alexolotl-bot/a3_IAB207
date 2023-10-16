@@ -67,13 +67,13 @@ class Event(db.Model):
     name = db.Column(db.String(80))
     description = db.Column(db.String(200))
     image = db.Column(db.String(400))
+    address = db.Column(db.String(100))
     # date/time 
-    date = db.Column(db.Date)
-    time = db.Column(db.Time)
+    datetime = db.Column(db.DateTime)
 
     #TICKETS 
-    price = db.Column(db.String(3))
-    # price = db.Column(db.Interger, default=0)
+    # price = db.Column(db.String(3))
+    price = db.Column(db.Interger, default=0)
 
     total_tickets = db.Column(db.Integer)
 

@@ -1,6 +1,6 @@
 
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, IntegerField, DateField, TimeField
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, IntegerField, DateTimeLocalField
 from wtforms.validators import InputRequired, Length, Email, EqualTo
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
@@ -34,22 +34,21 @@ ALLOWED_FILE = {'PNG', 'JPG', 'JPEG', 'png', 'jpg', 'jpeg'}
 
 class EventForm(FlaskForm):
   name = StringField('Name', validators=[InputRequired()])
-  date = DateField("Date", validators=[InputRequired()])
-  time = TimeField("Time", validators=[InputRequired()])
+  datetime = DateTimeLocalField("Date and Time", validators=[InputRequired()])
+  address = StringField('Location', validators=[InputRequired()])
   description = TextAreaField('Description', 
             validators=[InputRequired()])
   image = FileField('Event Image', validators=[
     FileRequired(message = 'Image cannot be empty'),
     FileAllowed(ALLOWED_FILE, message='Only supports png, jpg, JPG, PNG')])
   
-  num_tickets = IntegerField('Number of Tickets', validators=[InputRequired()])
+  total_tickets = IntegerField('Number of Tickets', validators=[InputRequired()])
 
 
   #   still need to add
-#   date/time
 #   location/address?
 #   event category
-#   total number of tickets
+
     # need to modify for ticket pricing  
     # currency = StringField('Currency', validators=[InputRequired()])
   submit = SubmitField("Create")
