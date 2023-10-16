@@ -1,6 +1,6 @@
 
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, IntegerField, DateField, TimeField
 from wtforms.validators import InputRequired, Length, Email, EqualTo
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
@@ -33,12 +33,18 @@ class CommentForm(FlaskForm):
 ALLOWED_FILE = {'PNG', 'JPG', 'JPEG', 'png', 'jpg', 'jpeg'}
 
 class EventForm(FlaskForm):
-  name = StringField('Country', validators=[InputRequired()])
+  name = StringField('Name', validators=[InputRequired()])
+  date = DateField("Date", validators=[InputRequired()])
+  time = TimeField("Time", validators=[InputRequired()])
   description = TextAreaField('Description', 
             validators=[InputRequired()])
-  image = FileField('Destination Image', validators=[
+  image = FileField('Event Image', validators=[
     FileRequired(message = 'Image cannot be empty'),
     FileAllowed(ALLOWED_FILE, message='Only supports png, jpg, JPG, PNG')])
+  
+  num_tickets = IntegerField('Number of Tickets', validators=[InputRequired()])
+
+
   #   still need to add
 #   date/time
 #   location/address?
@@ -50,6 +56,7 @@ class EventForm(FlaskForm):
 
 # Purchase tickets for an event
 class TicketForm(FlaskForm):
+#    price = IntegerField("Price")
 #    number of tickets 
 # not sure what else tickets would have 
 # price/ total prices

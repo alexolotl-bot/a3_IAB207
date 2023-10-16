@@ -1,5 +1,5 @@
 from . import db
-from datetime import datetime
+from datetime import datetime, date, time
 from flask_login import UserMixin
 
 class User(db.Model, UserMixin):
@@ -68,7 +68,8 @@ class Event(db.Model):
     description = db.Column(db.String(200))
     image = db.Column(db.String(400))
     # date/time 
-    date = db.Column(db.DateTime)
+    date = db.Column(db.Date)
+    time = db.Column(db.Time)
 
     #TICKETS 
     price = db.Column(db.String(3))
