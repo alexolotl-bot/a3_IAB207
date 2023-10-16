@@ -2,6 +2,7 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
 from wtforms.validators import InputRequired, Length, Email, EqualTo
+from flask_wtf.file import FileRequired, FileField, FileAllowed
 
 
 #creates the login information
@@ -21,3 +22,35 @@ class RegisterForm(FlaskForm):
 
     #submit button
     submit = SubmitField("Register")
+
+#User comment
+class CommentForm(FlaskForm):
+  text = TextAreaField('Comment', [InputRequired()])
+  submit = SubmitField('Create')
+
+# Create a new event
+# some started code modified from tute demo code
+ALLOWED_FILE = {'PNG', 'JPG', 'JPEG', 'png', 'jpg', 'jpeg'}
+
+class EventForm(FlaskForm):
+  name = StringField('Country', validators=[InputRequired()])
+  description = TextAreaField('Description', 
+            validators=[InputRequired()])
+  image = FileField('Destination Image', validators=[
+    FileRequired(message = 'Image cannot be empty'),
+    FileAllowed(ALLOWED_FILE, message='Only supports png, jpg, JPG, PNG')])
+  #   still need to add
+#   date/time
+#   location/address?
+#   event category
+#   total number of tickets
+    # need to modify for ticket pricing  
+    # currency = StringField('Currency', validators=[InputRequired()])
+  submit = SubmitField("Create")
+
+# Purchase tickets for an event
+class TicketForm(FlaskForm):
+#    number of tickets 
+# not sure what else tickets would have 
+# price/ total prices
+   submit = SubmitField('Purchase')
