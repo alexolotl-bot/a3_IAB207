@@ -8,8 +8,35 @@ from . import db
 #create a blueprint
 auth_bp = Blueprint('auth', __name__)
 
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    register = RegisterForm()
+    #the validation of form is fine, HTTP request is POST
+    if (register.validate_on_submit()==True):
+            #get username, password and email from the form
+            user_name = register.user_name.data
+            password = register.password.data
+            email = register.email_id.data
+            #check if a user exists
+            user = db.session.scalar(db.select(User).where(User.name==user_name))
+            if user:#this returns true when user is not None
+                flash('Username already exists, please try another')
+                return redirect(url_for('auth.register'))
+            # don't store the password in plaintext!
+            pwd_hash = generate_password_hash(password)
+            #create a new User model object
+            new_user = User(name=user_name, password_hash=pwd_hash, emailid=email)
+            db.session.add(new_user)
+            db.session.commit()
+            #commit to the database and redirect to HTML page
+            return redirect(url_for('main.index'))
+    #the else is called when the HTTP request calling this page is a GET
+    else:
+        return render_template('user.html', form=register, heading='Register')
+
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
-def authenticate():
+def login():
     print("In Login View")
     login_form = LoginForm()
     error=None
@@ -25,8 +52,8 @@ def authenticate():
             login_user(user)
             nextp = request.args.get('next') #this gives the url from where the login page was accessed
             print(nextp)
-            if next is None or not nextp.startswith('/'):
-                return redirect(url_for('index'))
+            if nextp is None or not nextp.startswith('/'):
+                return redirect(url_for('main.index'))
             return redirect(nextp)
         else:
             flash(error)
