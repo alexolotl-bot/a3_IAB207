@@ -1,8 +1,10 @@
 #from package import Class
-from flask import Flask 
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
+import datetime
 
 db=SQLAlchemy()
 
@@ -10,15 +12,23 @@ db=SQLAlchemy()
 # a web server will run this web application
 def create_app():
   
-    app=Flask(__name__)  # this is the name of the module/package that is calling this app
-    app.debug=True
-    app.secret_key='somesecretgoeshere'
+    app = Flask(__name__)  # this is the name of the module/package that is calling this app
+    # Should be set to false in a production environment
+    app.debug = True
+    app.secret_key = 'somesecretkey'
     #set the app configuration data 
-    app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///mydbname.sqlite'
-    #initialise db with flask app
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sitedata.sqlite'
+    #initialize db with flask app
     db.init_app(app)
 
-    bootstrap = Bootstrap5(app)
+    # bootstrap = Bootstrap5(app)
+    Bootstrap5(app)
+    Bcrypt(app)
+
+    
+    #config upload folder
+    UPLOAD_FOLDER = '/static/image'
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER 
     
     #initialize the login manager
     login_manager = LoginManager()
@@ -28,19 +38,23 @@ def create_app():
     login_manager.login_view='auth.login'
     login_manager.init_app(app)
 
-    #create a user loader function takes userid and returns User
-    #from .models import User  # importing here to avoid circular references
-    #@login_manager.user_loader
-    #def load_user(user_id):
-    #    return User.query.get(int(user_id))
-
-    #importing views module here to avoid circular references
-    # a common practice.
+    # create a user loader function takes userid and returns User
+    # Importing inside the create_app function avoids circular references
+    from .models import User
+    @login_manager.user_loader
+    def load_user(user_id):
+       return User.query.get(int(user_id))
+    
+ #importing views module here to avoid circular references
+    # a commonly used practice.
     from . import views
-    app.register_blueprint(views.bp)
+    app.register_blueprint(views.main_bp)
 
     from . import auth
-    app.register_blueprint(auth.bp)
+    app.register_blueprint(auth.auth_bp)
+
+    from . import event
+    app.register_blueprint(event.event_bp)
     
     return app
 

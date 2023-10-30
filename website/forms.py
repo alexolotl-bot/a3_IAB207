@@ -53,10 +53,18 @@ class EventForm(FlaskForm):
     # currency = StringField('Currency', validators=[InputRequired()])
   submit = SubmitField("Create")
 
+# # Purchase tickets for an event
+# class TicketForm(FlaskForm):
+# #    price = IntegerField("Price")
+# #    number of tickets 
+# # not sure what else tickets would have 
+# # price/ total prices
+#    submit = SubmitField('Purchase')
+
 # Purchase tickets for an event
-class TicketForm(FlaskForm):
-#    price = IntegerField("Price")
-#    number of tickets 
+class OrderForm(FlaskForm):
+  #  ticket_price = IntegerField('Ticket Price', render_kw={'readonly': True})
+   num_tickets = IntegerField('Number of Tickets', validators=[InputRequired()])
 # not sure what else tickets would have 
 # price/ total prices
    submit = SubmitField('Purchase')

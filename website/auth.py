@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, render_template, request, url_for, redirect
+from flask import Blueprint, flash, render_template, request, url_for, redirect, flash
 from werkzeug.security import generate_password_hash,check_password_hash
 from .models import User
 from .forms import LoginForm,RegisterForm
@@ -6,9 +6,9 @@ from flask_login import login_user, login_required,logout_user
 from . import db
 
 #create a blueprint
-bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__)
 
-@bp.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def authenticate():
     print("In Login View")
     login_form = LoginForm()
@@ -32,7 +32,7 @@ def authenticate():
             flash(error)
     return render_template('user.html', form=login_form, heading='Login')
 
-@bp.route('/logout')
+@auth_bp.route('/logout')
 @login_required
 def logout():
     logout_user()
