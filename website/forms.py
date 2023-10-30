@@ -43,10 +43,9 @@ class EventForm(FlaskForm):
     FileAllowed(ALLOWED_FILE, message='Only supports png, jpg, JPG, PNG')])
   
   total_tickets = IntegerField('Number of Tickets', validators=[InputRequired()])
-
+  ticket_price = IntegerField('Number of Tickets', validators=[InputRequired()])
 
   #   still need to add
-#   location/address?
 #   event category
 
     # need to modify for ticket pricing  
@@ -63,7 +62,7 @@ class EventForm(FlaskForm):
 
 # Purchase tickets for an event
 class OrderForm(FlaskForm):
-  #  ticket_price = IntegerField('Ticket Price', render_kw={'readonly': True})
+   ticket_price = IntegerField('Ticket Price', render_kw={'readonly': True})
    num_tickets = IntegerField('Number of Tickets', validators=[InputRequired()])
 # not sure what else tickets would have 
 # price/ total prices

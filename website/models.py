@@ -22,6 +22,7 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
     num_tickets = db.Column(db.Integer)
+    
     purchased_at = db.Column(db.DateTime, default=datetime.now())
 
     event = db.relationship('Event', backref='associated_event')
@@ -38,6 +39,7 @@ class Event(db.Model):
     image = db.Column(db.String(400))
     address = db.Column(db.String(100))
     datetime = db.Column(db.DateTime)
+    ticket_price = db.Column(db.Integer)
     total_tickets = db.Column(db.Integer)
     category = db.Column(db.String(400))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

@@ -41,9 +41,8 @@ def purchaseTickets(id):
       else:
          flash("Not enough tickets available.")
          print("Not enough tickets available.")
-         
-   
-   
+    # Prefill the ticket price in the form
+    orderForm.ticket_price.data = event.ticket_price  
     # using redirect sends a GET request to event.show
     return redirect(url_for('event.show', id=id))
 
