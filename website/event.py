@@ -68,8 +68,7 @@ def create():
     db_file_path = check_upload_file(form)
     event = Event(name=form.name.data,description=form.description.data, datetime= form.datetime.data,
                   address = form.address.data, image=db_file_path, 
-                  total_tickets=form.total_tickets.data, available_tickets=form.total_tickets.data, ticket_price=form.ticket_price.data,
-                  user=current_user)
+                  total_tickets=form.total_tickets.data, available_tickets=form.total_tickets.data, ticket_price=form.ticket_price.data)
     # add the object to the db session
     db.session.add(event)
     # commit to the database
@@ -110,22 +109,22 @@ def cancel_event(event_id):
    else:
       print("error:event not found, unable to cancel event")
 
-# @destbp.route('/<id>/comment', methods=['GET', 'POST'])  
-# @login_required
-# def comment(id):  
-#     form = CommentForm()  
-#     #get the event object associated to the page and the comment
-#     event = db.session.scalar(db.select(Event).where(Event.id==id))
-#     if form.validate_on_submit():  
-#       #read the comment from the form
-#       comment = Comment(text=form.text.data, event=event,
-#                         user=current_user) 
-#       #here the back-referencing works - comment.event is set
-#       # and the link is created
-#       db.session.add(comment) 
-#       db.session.commit() 
-#       #flashing a message which needs to be handled by the html
-#       flash('Your comment has been added', 'success')  
-#       # print('Your comment has been added', 'success') 
-#     # using redirect sends a GET request to event.show
-#     return redirect(url_for('event.show', id=id))
+@event_bp.route('/<id>/comment', methods=['GET', 'POST'])  
+@login_required
+def comment(id):  
+    form = CommentForm()  
+    #get the event object associated to the page and the comment
+    event = db.session.scalar(db.select(Event).where(Event.id==id))
+    if form.validate_on_submit():  
+      #read the comment from the form
+      comment = Comment(text=form.text.data, event=event,
+                       user=current_user) 
+      #here the back-referencing works - comment.event is set
+      # and the link is created
+      db.session.add(comment) 
+      db.session.commit() 
+      #flashing a message which needs to be handled by the html
+      flash('Your comment has been added', 'success')  
+      # print('Your comment has been added', 'success') 
+    # using redirect sends a GET request to event.show
+    return redirect(url_for('event.show', id=id))
