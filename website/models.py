@@ -22,7 +22,7 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
     num_tickets = db.Column(db.Integer)
-    
+    total_price = db.Column(db.Integer)
     purchased_at = db.Column(db.DateTime, default=datetime.now())
 
     event = db.relationship('Event', backref='associated_event')
@@ -41,8 +41,11 @@ class Event(db.Model):
     datetime = db.Column(db.DateTime)
     ticket_price = db.Column(db.Integer)
     total_tickets = db.Column(db.Integer)
+    available_tickets = db.Column(db.Integer)
     category = db.Column(db.String(400))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    status = db.Column(db.String(20), default='Open')
 
     user = db.relationship('User', backref='created_events')
     comments = db.relationship('Comment', backref='event')
@@ -50,9 +53,19 @@ class Event(db.Model):
 
     def __repr__(self):
         return f"Name: {self.name}"
+    def set_status(self):
+        if self.status == 'Cancelled':
+            return 'Cancelled'
+        elif self.available_tickets == 0:
+            return 'Sold Out'
+        elif self.datetime < datetime.now():
+            return 'Inactive'
+        else:
+            return 'Open'
+    
 
-class Category(db.Model):
-    __tablename__ = 'categories'
+class Status(db.Model):
+    __tablename__ = 'status'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
 

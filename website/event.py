@@ -26,14 +26,16 @@ def purchaseTickets(id):
     event = db.session.scalar(db.select(Event).where(Event.id==id))
     if orderForm.validate_on_submit(): 
       num_tickets = orderForm.num_tickets.data
+
     
         # validate number of tickets
       if(event.total_tickets >= num_tickets):
-         order = Order(num_tickets= num_tickets, event=event, user=current_user)
+         total_price = event.ticket_price * num_tickets
+         order = Order(num_tickets= num_tickets, total_price= total_price, event=event, user=current_user)
          db.session.add(order) 
          db.session.commit() 
 
-         event.total_tickets -= num_tickets
+         event.available_tickets -= num_tickets
          db.session.commit()
          #flashing a message which needs to be handled by the html
          flash('Order placed successfully!', 'success')
@@ -41,8 +43,7 @@ def purchaseTickets(id):
       else:
          flash("Not enough tickets available.")
          print("Not enough tickets available.")
-    # Prefill the ticket price in the form
-    orderForm.ticket_price.data = event.ticket_price  
+
     # using redirect sends a GET request to event.show
     return redirect(url_for('event.show', id=id))
 
@@ -55,13 +56,14 @@ def create():
     #call the function that checks and returns image
     db_file_path = check_upload_file(form)
     event = Event(name=form.name.data,description=form.description.data, datetime= form.datetime.data,
-                  address = form.address.data, image=db_file_path,
-                  total_tickets=form.total_tickets.data, user=current_user)
+                  address = form.address.data, image=db_file_path, 
+                  total_tickets=form.total_tickets.data, available_tickets=form.total_tickets.data, ticket_price=form.ticket_price.data,
+                  user=current_user)
     # add the object to the db session
     db.session.add(event)
     # commit to the database
     db.session.commit()
-    flash('Successfully created new travel event', 'success')
+    flash('Successfully created new event', 'success')
     #Always end with redirect when form is valid
     return redirect(url_for('event.create'))
   return render_template('events/create.html', form=form)

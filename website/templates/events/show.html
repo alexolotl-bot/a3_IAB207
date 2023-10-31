@@ -10,7 +10,7 @@
       <div class="col-md-12">  
         <div class="float-left">  
           <h1 class="mb-0">{{ event.name }}</h1>  
-          <p>Popular Destination</p>  
+          <p>Popular event</p>  
         </div>  
  
         
@@ -18,9 +18,9 @@
     </div>  
 
     <!-- <div class="row border-bottom"> 
-      {{ render_form(form,"/destinations/{0}/comment".format(destination.id)) }}
+      {{ render_form(form,"/events/{0}/comment".format(event.id)) }}
       
-      {% for comment in destination.comments %}
+      {% for comment in event.comments %}
       <div class="col-md-12">  
         <b>{{ comment.user.name }} <span class="ml-2 text-muted">{{ comment.created_at.strftime('%d/%m/%y %I:%M %p')}}</span></b>
         <p>{{ comment.text }}</p>  
@@ -57,7 +57,7 @@
 
     </div>
  
-    <!-- Destination --> 
+    <!-- event --> 
     <!-- <div class="row">  
       <div class="col-md-12">  
         <div class="card my-3">  
@@ -84,9 +84,9 @@
     </div>  
  
     <!-- <div class="row border-bottom"> 
-      {{ render_form(form,"/destinations/{0}/comment".format(destination.id)) }}
+      {{ render_form(form,"/events/{0}/comment".format(event.id)) }}
       
-      {% for comment in destination.comments %}
+      {% for comment in event.comments %}
       <div class="col-md-12">  
         <b>{{ comment.user.name }} <span class="ml-2 text-muted">{{ comment.created_at.strftime('%d/%m/%y %I:%M %p')}}</span></b>
         <p>{{ comment.text }}</p>  
