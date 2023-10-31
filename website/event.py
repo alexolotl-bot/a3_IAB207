@@ -12,6 +12,10 @@ event_bp = Blueprint('event', __name__, url_prefix='/events')
 @event_bp.route('/<id>')
 def show(id):
     event = db.session.scalar(db.select(Event).where(Event.id==id))
+    # seting event status
+    event.set_status()
+    db.session.commit()
+
     # create the ticket order form
     orderForm = OrderForm()
     # create the comment form
@@ -35,7 +39,9 @@ def purchaseTickets(id):
          db.session.add(order) 
          db.session.commit() 
 
+         #updating the event's tickets and status  
          event.available_tickets -= num_tickets
+         event.set_status()
          db.session.commit()
          #flashing a message which needs to be handled by the html
          flash('Order placed successfully!', 'success')
@@ -81,6 +87,16 @@ def check_upload_file(form):
   #save the file and return the db upload path
   fp.save(upload_path)
   return db_upload_path
+
+# Sets event status to cancelled 
+def cancel_event(event_id):
+   event = Event.query.get(event_id)
+   if event:
+      event.status = "Cancelled"
+      db.session.commit()
+      print("event cancelled")
+   else:
+      print("error:event not found, unable to cancel event")
 
 # @destbp.route('/<id>/comment', methods=['GET', 'POST'])  
 # @login_required
