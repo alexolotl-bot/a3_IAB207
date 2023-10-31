@@ -55,13 +55,13 @@ class Event(db.Model):
         return f"Name: {self.name}"
     def set_status(self):
         if self.status == 'Cancelled':
-            return 'Cancelled'
+            self.status = 'Cancelled'
         elif self.available_tickets == 0:
-            return 'Sold Out'
+            self.status = 'Sold Out'
         elif self.datetime < datetime.now():
-            return 'Inactive'
+            self.status = 'Inactive'
         else:
-            return 'Open'
+            self.status = 'Open'
     
 
 class Status(db.Model):

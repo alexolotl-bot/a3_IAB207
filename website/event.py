@@ -12,7 +12,7 @@ event_bp = Blueprint('event', __name__, url_prefix='/events')
 @event_bp.route('/<id>')
 def show(id):
     event = db.session.scalar(db.select(Event).where(Event.id==id))
-    # seting event status
+    # validating the event status and updating if needed 
     event.set_status()
     db.session.commit()
 
@@ -28,19 +28,23 @@ def purchaseTickets(id):
     orderForm = OrderForm()  
     #get the event object associated to the page and the comment
     event = db.session.scalar(db.select(Event).where(Event.id==id))
+    event.set_status()
+    db.session.commit()
     if orderForm.validate_on_submit(): 
       num_tickets = orderForm.num_tickets.data
 
     
         # validate number of tickets
-      if(event.total_tickets >= num_tickets):
+      if(event.available_tickets >= num_tickets):
          total_price = event.ticket_price * num_tickets
          order = Order(num_tickets= num_tickets, total_price= total_price, event=event, user=current_user)
          db.session.add(order) 
          db.session.commit() 
 
-         #updating the event's tickets and status  
-         event.available_tickets -= num_tickets
+         #updating the event's avaible tickets and status  
+         event.available_tickets -= num_tickets        
+         db.session.commit()
+
          event.set_status()
          db.session.commit()
          #flashing a message which needs to be handled by the html
@@ -69,6 +73,10 @@ def create():
     db.session.add(event)
     # commit to the database
     db.session.commit()
+
+    # validating the event status and updating if needed 
+    event.set_status()
+    db.session.commit()
     flash('Successfully created new event', 'success')
     #Always end with redirect when form is valid
     return redirect(url_for('event.create'))
@@ -87,6 +95,9 @@ def check_upload_file(form):
   #save the file and return the db upload path
   fp.save(upload_path)
   return db_upload_path
+
+
+   
 
 # Sets event status to cancelled 
 def cancel_event(event_id):
