@@ -15,6 +15,7 @@ def show(id):
     # validating the event status and updating if needed 
     event.set_status()
     db.session.commit()
+    print(current_user.id)
 
     # create the ticket order form
     orderForm = OrderForm()
