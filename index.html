@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<!--Jumbotron-->
+<div class="container">
+   <div class="row justify-content-center mt-5 pb-4">
+      <div class="col-md-8">
+         <div class="card shadow p-5 mb-5 bg-light">
+            <h1 class="text-center mb-3">PLACEHOLDER</h1>
+
+            <form class="form-inline d-flex flex-nowrap" action="{{url_for('main.search')}}">
+               <input type="text" name="search" class="form-control flex-grow-1 my-1 mr-sm-2" id="SearchForm">
+               <button type="submit" class="flex-shrink-1 btn btn-primary my-1">Submit</button>
+            </form>
+
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 align="center">Dependent Dropdown with Search Box using Python Flask jQuery Ajax and PostgreSQL Database</h1>
+    <div class="form" method="post">
+        <div class="form_group" style="margin:200px">
+            <label>Select </label>
+            <select name="this_category" data-dropdown>
+                <option value="1">select a category</option>
+                {% for event in events %}
+                <option value="{{event.id}}">{{event.category}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="flex-shrink-1 btn btn-primary my-1">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div>
+   <div class="card-group">
+      {% for event in events %}
+       
+      <div class="card mx-3">
+         <img class="card-img-top" src="{{ event.image }}" alt="event picture">
+         <div class="card-body">
+            <h5 class="card-title">{{ event.name }}</h5>
+            <p class="card-text">{{ event.description }}</p>
+         </div>
+         <div class="card-footer"><a href="{{ url_for('event.show', id=event.id) }}" class="btn btn-danger">
+               View Details </a></div>
+      </div>
+      {% endfor %}
+   </div>
+</div>
+{% endblock %} -->
