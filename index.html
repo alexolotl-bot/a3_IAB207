@@ -21,25 +21,25 @@
 
 {% block content %}
 <div class="container">
-   <div class="row mt-5 mb-5 justify-content-center">
-      <div class="col-md-10">
-         <div class="media border p-3 d-flex justify-content-start">
-            <img class="align-self-center me-3" style="max-width:120px"
-               src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Earth_Western_Hemisphere_transparent_background.png/600px-Earth_Western_Hemisphere_transparent_background.png"
-               alt="Planet Earth">
-            <div class="align-self-center media-body">
-               <h5 class="mt-0">Find the best destinations on earth</h5>
-               <p class="d-none d-sm-block">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-                  scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra
-                  turpis. Fusce condimentum nunc ac nisi vulputate fringilla.</p>
-               <a href="#" class="btn btn-primary">Join Now</a>
-            </div>
-         </div>
-      </div>
-   </div>
+    <h1 align="center">Dependent Dropdown with Search Box using Python Flask jQuery Ajax and PostgreSQL Database</h1>
+    <div class="form" method="post">
+        <div class="form_group" style="margin:200px">
+            <label>Select </label>
+            <select name="this_category" data-dropdown>
+                <option value="1">select a category</option>
+                {% for event in events %}
+                <option value="{{event.id}}">{{event.category}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="flex-shrink-1 btn btn-primary my-1">Submit</button>
+        </div>
+    </div>
+</div>
 
+<div>
    <div class="card-group">
       {% for event in events %}
+       
       <div class="card mx-3">
          <img class="card-img-top" src="{{ event.image }}" alt="event picture">
          <div class="card-body">
