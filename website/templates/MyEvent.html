@@ -21,10 +21,10 @@
                         {{event.description}}
                     </p>
                     <p>Event Date : {{event.datetime}}</p>
-                    <a href="/event/update?id={{event.id}}" class="more_btn">
-                        Update
+                    <a href="{{ url_for('event.show', id=event.id) }}" class="more_btn">
+                        Detail
                     </a>
-                    {% if e.status=="open"%}
+                    {% if event.status=="open"%}
                     <div class="ztx" style="color:green">{{event.status}}</div>
                     {%else%}
                     <div class="ztx" style="color:#FFA500">{{event.status}}</div>
