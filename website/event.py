@@ -15,8 +15,7 @@ def show(id):
     # validating the event status and updating if needed 
     event.set_status()
     db.session.commit()
-    print(current_user.id)
-
+    
     # create the ticket order form
     orderForm = OrderForm()
     # create the comment form
@@ -97,6 +96,26 @@ def check_upload_file(form):
   return db_upload_path
 
 
+
+@event_bp.route('/update?id=<id>', methods=['GET', 'POST'])
+@login_required
+def update(id):  
+    user = current_user.id
+    # check the current user is the creator of the event 
+    event = db.session.scalar(db.select(Event).where(Event.id==id))
+    print (event.user_id)
+
+    form = EventForm()
+    
+    if(event.user_id == user):
+       print("user can update the event - creator ")
+
+    else:
+       return render_template('404.html', error="Event's can only be updated by the event creator")
+    # else return error - cannot edit events created by other users 
+
+    # using redirect sends a GET request to event.show
+    return redirect(url_for('event.show', id=id))
    
 
 # Sets event status to cancelled 

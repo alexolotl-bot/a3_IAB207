@@ -1,6 +1,6 @@
 
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, IntegerField, DateTimeLocalField
+from wtforms.fields import TextAreaField, SelectField, SubmitField, StringField, PasswordField, IntegerField, DateTimeLocalField
 from wtforms.validators import InputRequired, Length, Email, EqualTo
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
@@ -45,25 +45,18 @@ class EventForm(FlaskForm):
   total_tickets = IntegerField('Number of Tickets', validators=[InputRequired()])
   ticket_price = IntegerField('Ticket Price', validators=[InputRequired()])
 
+  category = SelectField('Category', choices=[("Food market"), ("Food and wine pairing"), ("Food tastings"), ("Cooking demonstrations") ])
+
   #   still need to add
 #   event category
 
-    # need to modify for ticket pricing  
-    # currency = StringField('Currency', validators=[InputRequired()])
   submit = SubmitField("Create")
 
-# # Purchase tickets for an event
-# class TicketForm(FlaskForm):
-# #    price = IntegerField("Price")
-# #    number of tickets 
-# # not sure what else tickets would have 
-# # price/ total prices
-#    submit = SubmitField('Purchase')
 
 # Purchase tickets for an event
 class OrderForm(FlaskForm):
   #  ticket_price = IntegerField('Ticket Price', render_kw={'readonly': True})
-   num_tickets = IntegerField('Number of Tickets', validators=[InputRequired()])
+   num_tickets = IntegerField('Ticket Quantity', validators=[InputRequired()])
 # not sure what else tickets would have 
 # price/ total prices
-   submit = SubmitField('Purchase')
+   submit = SubmitField('Book Now')

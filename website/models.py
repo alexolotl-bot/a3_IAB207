@@ -25,8 +25,8 @@ class Order(db.Model):
     total_price = db.Column(db.Integer)
     purchased_at = db.Column(db.DateTime, default=datetime.now())
 
-    # event = db.relationship('Event', backref='associated_event')
-    # user = db.relationship('User', backref='order_ref')
+    event = db.relationship('Event', backref='associated_event')
+    user = db.relationship('User', backref='order_ref')
 
     def __repr__(self):
         return f"Order Ref: {self.id}"
@@ -65,13 +65,13 @@ class Event(db.Model):
             self.status = 'Open'
     
 
-class Status(db.Model):
-    __tablename__ = 'status'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+# class Status(db.Model):
+#     __tablename__ = 'status'
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(100), nullable=False)
 
-    def __repr__(self):
-        return "<Name: {}>".format(self.name)
+#     def __repr__(self):
+#         return "<Name: {}>".format(self.name)
 
 class Comment(db.Model):
     __tablename__ = 'comments'

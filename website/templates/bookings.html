@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div id="content">
+
+    <!-- Festival Details -->
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="mb-4">History Order</h2>
+            <!-- History Details -->
+
+            <ul class="list-group">
+                {% for order in orders %}
+                <li class="list-group-item">
+                    <h5>{{order.event.name}}</h5>
+                    <p><strong>Order ID：</strong> {{order.id}}</p>
+                    <p><strong>Time：</strong> {{order.purchased_at.strftime('%d/%m/%y %I:%M %p')}}</p>
+                    <p><strong>Total Price：</strong> ${{order.total_price}}.00</p>
+                    <p><strong>Number of ：</strong> {{order.num_tickets}}</p>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+    </div>
+
+    {% endblock %}
