@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="content">
+    <div class="banner">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <form>
+            <label for="category" class="col-md-2 col-form-label">Category:</label>
+            <div class="col-md-10">
+                <select class="form-control" id="category" name="category">
+                    <option value="">Select Category</option>
+                    <option value="Cooking demonstrations">Cooking demonstrations</option>
+                    <option value="Food tastings">Food tastings</option>
+                    <option value="Culinary competitions">Culinary competitions</option>
+                    <option value="Food and wine pairing">Food and wine pairing</option>
+                    <option value="Food market">Food market</option>
+                    <option value="Live entertainment:">Live entertainment:</option>
+                </select>
+            </div>
+            <label for="event_name" class="col-md-2 col-form-label">event name:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" value="{{event_name}}" name="event_name" id="event_name">
+            </div>
+            <button style="margin-left:30px;margin-top:10px;margin-bottom:10px" type="submit" id="submitBtn"
+                    class="btn btn-dark">Search
+            </button>
+
+        </form>
+    </div>
+
+    {% for event in events %}
+    <div class="row">
+        {% for e in event%}
+        <div class="item">
+            <div class="col-6">
+                <div class="item_text">
+                    <h3> {{e.name}} </h3>
+                    <div class="line"></div>
+                    <p>
+                        {{e.description}}
+                    </p>
+                    <p>Event Date : {{e.datetime}}</p>
+                    <a href="{{ url_for('event.show', id=e.id) }}" class="more_btn">
+                        Detail
+                    </a>
+                    {% if e.status=="open"%}
+                    <div class="ztx" style="color:green">{{e.status}}</div>
+                    {%else%}
+                    <div class="ztx" style="color:#FFA500">{{e.status}}</div>
+                    {%endif%}
+
+                </div>
+            </div>
+            <div class="col-6">
+                <img src="{{e.image}}" alt="">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+</div>
+<script>
+ // Get the select element
+var selectElement = document.getElementById("category");
+
+// Setting the Default Selection
+selectElement.value = "{{category}}";
+
+</script>
+{% endblock %}

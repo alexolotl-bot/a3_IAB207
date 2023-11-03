@@ -1,78 +1,40 @@
 {% extends 'base.html' %}
 
-{% block header %}
-
-{% endblock %}
-
 {% block content %}
 
 <div class="content">
-   <div class="banner">
-      <img src="static/image/banner.jpg" alt="">
-      <h2>WELCOME TO Foodête !</h2>
-   </div>
-   
-   {% for event in events %}
-   <div class="row">
-      <div class="item">
-         <div class="col-6">
-            <div class="item_text">
-               <h3> {{event.name}} </h3>
-               <div class="line"></div>
-               <p>
-                  {{event.description}}
-               </p>
-               <p>Event Date : {{event.datetime.strftime('%d/%m/%y %I:%M %p')}}</p>
-               <a href="{{ url_for('event.show', id=event.id) }}" class="more_btn">
-                  Detail
-               </a>
-               {% if event.status=="Open"%}
-               <div class="ztx" style="color:green">{{event.status}}</div>
-               {%else%}
-               <div class="ztx" style="color:#FFA500">{{event.status}}</div>
-               {%endif%}
+    <div class="banner">
+        <img src="static/image/banner.jpg" alt="">
+        <h2>WELCOME TO Foodête !</h2>
+    </div>
+
+    {% for event in events %}
+    <div class="row">
+        <div class="item">
+            <div class="col-6">
+                <div class="item_text">
+                    <h3> {{event.name}} </h3>
+                    <div class="line"></div>
+                    <p>
+                        {{event.description}}
+                    </p>
+                    <p>Event Date : {{event.datetime.strftime('%d/%m/%y %I:%M %p')}}</p>
+                    <a href="{{ url_for('event.show', id=event.id) }}" class="more_btn">
+                        Detail
+                    </a>
+                    {% if event.status=="Open"%}
+                    <div class="ztx" style="color:green">{{event.status}}</div>
+                    {%else%}
+                    <div class="ztx" style="color:#FFA500">{{event.status}}</div>
+                    {%endif%}
+                </div>
             </div>
-         </div>
-         <div class="col-6">
-            <img src="{{event.image}}" alt="">
-         </div>
-      </div>
-   </div>
-   {% endfor %}
+            <div class="col-6">
+                <img src="{{event.image}}" alt="">
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
-</div>
-
-
-<div class="container">
-   <h1 align="center">Dependent Dropdown with Search Box using Python Flask jQuery Ajax and PostgreSQL Database</h1>
-   <div class="form" method="post">
-      <div class="form_group" style="margin:200px">
-         <label>Select </label>
-         <select name="this_category" data-dropdown>
-            <option value="1">select a category</option>
-            {% for event in events %}
-            <option value="{{event.id}}">{{event.category}}</option>
-            {% endfor %}
-         </select>
-         <button type="submit" class="flex-shrink-1 btn btn-primary my-1">Submit</button>
-      </div>
-   </div>
-</div>
-
-<div>
-   <div class="card-group">
-      {% for event in events %}
-
-      <div class="card mx-3">
-         <img class="card-img-top" src="{{ event.image }}" alt="event picture">
-         <div class="card-body">
-            <h5 class="card-title">{{ event.name }}</h5>
-            <p class="card-text">{{ event.description }}</p>
-         </div>
-         <div class="card-footer"><a href="{{ url_for('event.show', id=event.id) }}" class="btn btn-danger">
-               View Details </a></div>
-      </div>
-      {% endfor %}
-   </div>
 </div>
 {% endblock %}
