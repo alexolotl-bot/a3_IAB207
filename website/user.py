@@ -109,4 +109,4 @@ def myevent():
 
     print(current_user.events)
 
-    return render_template('MyEvent.html', events=current_user.events, )
+    return render_template('MyEvent.html', events=current_user.events)
