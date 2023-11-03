@@ -4,10 +4,13 @@ from . import db
 
 main_bp = Blueprint('main', __name__)
 
-
 @main_bp.route('/')
 def index():
-    events = db.session.scalars(db.select(Event)).all()    
+    events = db.session.scalars(db.select(Event)).all()
+    # validating the event status and updating if needed 
+    for event in events:
+        event.set_status()
+        db.session.commit()
     return render_template('index.html', events=events)
 
 @main_bp.route('/search')
